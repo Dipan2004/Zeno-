@@ -134,8 +134,6 @@ Some OS-control and voice tests are environment-dependent and are most reliable 
 
 ## Current Focus and Tradeoffs
 
-ZENO is strongest as a local assistant runtime and orchestration project. It emphasizes controllable execution, deterministic routing, and safe tool use over polished UI or cloud-scale deployment. Some integrations are optional, environment-specific, or credential-gated, but the core project structure already reflects the kind of ownership, debugging discipline, and system decomposition expected in serious software engineering work.
+ZENO is strong as a local assistant runtime and orchestration project. It emphasizes controllable execution, deterministic routing, and safe tool use over polished UI or cloud-scale deployment. Some integrations are optional, environment-specific, or credential-gated, but the core project structure already reflects the kind of ownership, debugging discipline, and system decomposition expected in serious software engineering work.I am still working on this project.
 
-## Resume-Ready Summary
 
-Built a local AI assistant runtime in Python with agent-based task orchestration, low-latency request routing, sandboxed command execution, model fallback handling, structured observability, reminder memory, and optional voice interfaces for real machine-side workflows.
