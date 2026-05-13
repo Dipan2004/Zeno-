@@ -60,25 +60,63 @@ User Input
 ## Flow Chart
 
 ```mermaid
-flowchart TD
-    A[User Request] --> B[FastRouter]
-    B -->|Chat intent| C[ChatAgent]
-    B -->|Code or file task| D[DeveloperAgent]
-    B -->|System command| E[SystemAgent]
-    B -->|Complex or multi-step request| F[PlannerAgent]
-    F --> G[Orchestrator]
-    C --> G
-    D --> G
-    E --> G
-    G --> H[Tooling Layer]
-    H --> I[Workspace File System]
-    H --> J[Command Approver]
-    J --> K[Workspace Executor]
-    G --> L[Memory and Context]
-    G --> M[Observability Metrics]
-    K --> N[Final Response]
-    L --> N
-    M --> N
+graph TD
+    subgraph "1. User Input & Pre-Processing"
+        UI_T[CLI / Keyboard Input] --> CM[ContextManager]
+        UI_V[Voice Input Manager] -->|STT| CM
+        CM -->|User Message| FR[FastRouter]
+    end
+
+    subgraph "2. Intent Routing"
+        FR -->|Regex/Pattern Hit| FT[Fast Task]
+        FR -->|Miss / Complex Intent| PL[PlannerAgent]
+        PL -->|LLM Reasoning| PG[Task Graph Generation]
+    end
+
+    subgraph "3. Core Orchestration"
+        FT --> OR[Orchestrator]
+        PG --> OR
+        OR -->|Dependency Resolution| TG[Task Graph / DAG]
+        TG -->|Execution Queue| RE[RuntimeKernel / Scheduler]
+    end
+
+    subgraph "4. Agent Layer"
+        RE -->|ChatType| AG_C[ChatAgent]
+        RE -->|SystemType| AG_S[SystemAgent]
+        RE -->|DevType| AG_D[DeveloperAgent]
+        RE -->|BrowserType| AG_B[BrowserAgent]
+        RE -->|ReminderType| AG_R[ReminderAgent]
+    end
+
+    subgraph "5. Safety & Execution"
+        AG_S --> SY[System Control Tools]
+        AG_D --> WS[Workspace Executor]
+        AG_B --> BR[Browser Runtime]
+        WS -->|Approval Gate| CA[CommandApprover]
+        CA -->|Sandboxed Exec| SH[Shell / FS Ops]
+    end
+
+    subgraph "6. LLM Services"
+        AG_C & PL & AG_D --> PR[PlannerRouter]
+        PR -->|Primary| GM[GeminiClient]
+        PR -->|Fallback| LL[LocalLLM / Ollama]
+    end
+
+    subgraph "7. Persistence & Memory"
+        AG_R --> RS[ReminderStore]
+        OR & AG_C --> CM
+        OR --> OB[Observability Layer]
+        OB --> DS[Dashboard / Observatory]
+        OB --> JL[JSONL Metrics]
+        RS --> SL[SQLite Store]
+    end
+
+    subgraph "8. Final Response"
+        AG_C & OR --> RP[Final Response]
+        RP -->|Text| UI_T
+        RP -->|TTS| VO[Voice Output Manager]
+    end
+
 ```
 
 ## Technical Stack
