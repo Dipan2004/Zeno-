@@ -80,38 +80,6 @@ flowchart TD
     L --> N
     M --> N
 ```
-graph TD
-    User([User Request]) --> Router{FastRouter}
-    
-    %% Fast Path
-    Router -->|Match| FT[Fast Task]
-    FT --> Exec[Orchestrator Execution]
-    
-    %% Planning Path
-    Router -->|No Match| Planner[PlannerAgent]
-    Planner -->|LLM Reasoning| Graph[Task Graph / DAG]
-    Graph --> Exec
-    
-    %% Execution Layer
-    subgraph Execution_Kernel [Orchestrator Runtime]
-        Exec --> Parallel[Parallel Task Runner]
-        Parallel --> Agents{Agent Selection}
-    end
-    
-    %% Agents
-    Agents -->|System| SysA[SystemAgent]
-    Agents -->|Dev| DevA[DeveloperAgent]
-    Agents -->|Web| BrowserA[BrowserAgent]
-    
-    %% Safety Layer
-    SysA & DevA --> Approver{Command Approver}
-    Approver -->|Denied| Fail[Task Failed]
-    Approver -->|Approved| Sandbox[Workspace Sandbox]
-    
-    %% Feedback Loop
-    Sandbox --> Results[Task Results]
-    Results --> Dashboard[Observatory Dashboard]
-    Results --> Response([Final Response to User])
 
 ## Technical Stack
 
@@ -166,6 +134,8 @@ Some OS-control and voice tests are environment-dependent and are most reliable 
 
 ## Current Focus and Tradeoffs
 
-ZENO is strong as a local assistant runtime and orchestration project. It emphasizes controllable execution, deterministic routing, and safe tool use over polished UI or cloud-scale deployment. Some integrations are optional, environment-specific, or credential-gated, but the core project structure already reflects the kind of ownership, debugging discipline, and system decomposition expected in serious software engineering work.I am still working on this project.
+ZENO is strongest as a local assistant runtime and orchestration project. It emphasizes controllable execution, deterministic routing, and safe tool use over polished UI or cloud-scale deployment. Some integrations are optional, environment-specific, or credential-gated, but the core project structure already reflects the kind of ownership, debugging discipline, and system decomposition expected in serious software engineering work.
 
+## Resume-Ready Summary
 
+Built a local AI assistant runtime in Python with agent-based task orchestration, low-latency request routing, sandboxed command execution, model fallback handling, structured observability, reminder memory, and optional voice interfaces for real machine-side workflows.
