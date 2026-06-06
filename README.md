@@ -1,179 +1,180 @@
-# ZENO
+# ZENO v1: The Personal AI Operating System
 
-ZENO is a local AI assistant framework built as a systems-oriented Python project rather than a thin chatbot wrapper. It combines task routing, agent-based execution, sandboxed workspace operations, observability, and optional voice I/O into a single assistant runtime designed for real machine-side actions.
+Welcome to the future of personal computing. **ZENO v1 is not just a chatbot, a tool, or a script—it is a complete, autonomous Personal AI Operating System.** And incredibly, this is *only the first version*.
 
-The project is focused on engineering concerns that matter in production software: clear separation of responsibilities, safety boundaries for command execution, fallback behavior across model providers, structured metrics, and test coverage for critical routing and reminder flows.
+Built to replace fragmented workflows, ZENO v1 acts as the intelligent cognitive layer over your entire digital life. It bridges the gap between deterministic machine execution and profound artificial reasoning. By seamlessly integrating voice, text, memory, and sandboxed execution, ZENO manages your workspace, writes your code, automates your tedious tasks, and acts as a profound extension of your own mind.
 
-## What It Does
+Designed for uncompromising speed, privacy, and reliability, ZENO abandons bloated commercial frameworks in favor of a hyper-optimized, custom **Runtime Framework** powered by lightning-fast, privacy-first Small Language Models (SLMs).
 
-- Routes user requests through a fast-path classifier to avoid unnecessary LLM calls for obvious actions.
-- Orchestrates multi-step work through typed tasks, dependency-aware execution, and agent-specific routing.
-- Supports conversational assistance, planning, code generation, reminder management, and Windows system actions.
-- Executes approved shell commands inside a constrained workspace sandbox.
-- Provides optional voice input/output for a hands-free local assistant workflow.
-- Logs structured metrics for routing, tool execution, planner validation, and LLM latency.
+---
 
-## Why This Project Is Interesting
+## 🌌 The AI OS Experience: Key Features
 
-ZENO is intentionally built to demonstrate backend and systems thinking:
+### 🧠 Absolute Memory & Infinite Context Continuity
+ZENO doesn't just respond; it *knows* you. It watches what you do, understands your projects, and remembers everything.
+*   **Persistent Graph-Based ZenoBrain:** A sprawling, graph-based long-term memory engine. It permanently maps entities, relationships, temporal events, and latent links of your entire workflow.
+*   **Start Exactly Where You Left Off:** Whether it's been an hour or a month, ZENO's **Session Continuity** instantly restores your working memory and project states. Drop a project today, and ZENO will seamlessly pick up the exact context tomorrow.
+*   **Deep Cognitive Retrieval:** ZENO constantly analyzes your requests, pulling hyper-relevant sub-graphs from your history to inform its actions. It never loses track of the conversation.
 
-- An execution kernel in [`zeno/core/orchestrator.py`](/C:/Users/KIIT0001/Desktop/ZENO/zeno/core/orchestrator.py) models work as typed tasks with dependency graphs, status transitions, and cooperative interruption.
-- A lightweight classifier in [`zeno/core/fast_router.py`](/C:/Users/KIIT0001/Desktop/ZENO/zeno/core/fast_router.py) handles deterministic requests in milliseconds before escalating to planner or chat paths.
-- Safety boundaries are explicit: [`zeno/core/command_approver.py`](/C:/Users/KIIT0001/Desktop/ZENO/zeno/core/command_approver.py) gates command execution, and [`zeno/core/workspace_executor.py`](/C:/Users/KIIT0001/Desktop/ZENO/zeno/core/workspace_executor.py) keeps shell actions inside a sandboxed workspace with timeouts and captured output.
-- Reliability is treated as a first-class concern through model fallback logic in [`zeno/llm/hybrid_llm.py`](/C:/Users/KIIT0001/Desktop/ZENO/zeno/llm/hybrid_llm.py) and structured event logging in [`zeno/core/observability.py`](/C:/Users/KIIT0001/Desktop/ZENO/zeno/core/observability.py).
+### 🛡️ Ironclad Security & Sandboxed Execution
+Power means nothing without safety. ZENO executes with military-grade precision and isolation.
+*   **Sandboxed Command Execution:** Code generation, shell scripts, and system commands are evaluated and executed within an isolated sandbox, ensuring your host OS remains untainted and secure.
+*   **Multi-Layered Security:** Built with stringent command approvers, deterministic safety checks, and strict boundary controls. You dictate what ZENO can touch.
 
-## Architecture
+### ⚡ Custom Runtime & Zero-Latency Fast Routing
+We engineered out the wait. ZENO operates at the speed of thought.
+*   **Capability Router & FastRouter:** Deterministic regex-based routing bypasses the AI completely. OS-level commands, Git operations, and direct file edits execute instantaneously.
+*   **Bespoke RuntimeKernel:** We stripped away the bloat of standard AI frameworks. ZENO runs on a proprietary, lightweight `RuntimeKernel` utilizing an `Orchestrator`, `RuntimeScheduler`, and `EventBus` built for transparency, concurrent task graphs, and raw processing power.
 
-```text
-User Input
-  -> FastRouter
-     -> ChatAgent
-     -> PlannerAgent
-     -> DeveloperAgent
-     -> SystemAgent
-  -> Orchestrator
-     -> Task graph execution + dependency resolution
-  -> Tooling Layer
-     -> File system sandbox
-     -> Workspace executor
-     -> Windows app / volume / brightness controls
-  -> Memory + Observability
-     -> Reminders
-     -> Context tracking
-     -> JSONL metrics
-```
+### 🪶 Hyper-Optimized SLM Intelligence
+ZENO gives you the power of massive AI clusters locally on your consumer hardware.
+*   **Local, Low-RAM Dominance:** Deeply integrated with lightning-fast Small Language Models (SLMs) like **Qwen 2.5 3B Instruct**, **Llama 3.2 1B**, and **Granite 3 MoE 1B**. 
+*   **Multi-Agent Swarm:** ZENO dynamically routes tasks to specialized agents registered in its kernel: a **Planner Agent** breaks down logic, a **Developer Agent** writes code, a **System Agent** handles shell ops, a **Browser/Cognition Agent** conducts web research, and a **Reminder Agent** handles schedules.
 
-## Execution Pipeline
+### 🎙️ Total Omni-Channel Control (Voice & Text)
+Command your OS naturally.
+*   **Push-to-Talk Command:** A global hotkey (`Ctrl+Space`) activates ZENO's local STT (Speech-to-Text). Speak naturally, and ZENO executes and responds via its natural TTS engine.
+*   **Remote Telegram Bridge:** Away from your desk? Command your computer, check on running tasks, or continue coding sessions directly from your phone via ZENO's dedicated Telegram bot.
 
-```text
-1. User submits a request
-2. FastRouter checks for deterministic intents
-3. Request is either:
-   - handled directly by ChatAgent / DeveloperAgent / SystemAgent
-   - escalated to PlannerAgent for multi-step decomposition
-4. Orchestrator builds and executes the task graph
-5. Approved tools run inside workspace and system safety boundaries
-6. Results are logged through the observability layer
-7. Final response is returned to the user, with reminders/context updated when needed
-```
+### 🌐 Google Workspace (GWS) Omniscience
+ZENO integrates directly into the fabric of your professional life.
+*   **Native GWS Integration:** Search your Google Drive, read and summarize unread Gmail, manage Calendar events, and automate Docs—all directly from the terminal or via voice, securely authenticated.
 
-## Flow Chart
+---
+
+## 🏗️ Architecture Flowchart
+
+How ZENO v1 processes your intent, retrieves cognitive memory, and executes safely using its custom `RuntimeKernel` and Event-Driven architecture.
 
 ```mermaid
 graph TD
-    subgraph "1. User Input & Pre-Processing"
-        UI_T[CLI / Keyboard Input] --> CM[ContextManager]
-        UI_V[Voice Input Manager] -->|STT| CM
-        CM -->|User Message| FR[FastRouter]
-    end
-
-    subgraph "2. Intent Routing"
-        FR -->|Regex/Pattern Hit| FT[Fast Task]
-        FR -->|Miss / Complex Intent| PL[PlannerAgent]
-        PL -->|LLM Reasoning| PG[Task Graph Generation]
-    end
-
-    subgraph "3. Core Orchestration"
-        FT --> OR[Orchestrator]
-        PG --> OR
-        OR -->|Dependency Resolution| TG[Task Graph / DAG]
-        TG -->|Execution Queue| RE[RuntimeKernel / Scheduler]
-    end
-
-    subgraph "4. Agent Layer"
-        RE -->|ChatType| AG_C[ChatAgent]
-        RE -->|SystemType| AG_S[SystemAgent]
-        RE -->|DevType| AG_D[DeveloperAgent]
-        RE -->|BrowserType| AG_B[BrowserAgent]
-        RE -->|ReminderType| AG_R[ReminderAgent]
-    end
-
-    subgraph "5. Safety & Execution"
-        AG_S --> SY[System Control Tools]
-        AG_D --> WS[Workspace Executor]
-        AG_B --> BR[Browser Runtime]
-        WS -->|Approval Gate| CA[CommandApprover]
-        CA -->|Sandboxed Exec| SH[Shell / FS Ops]
-    end
-
-    subgraph "6. LLM Services"
-        AG_C & PL & AG_D --> PR[PlannerRouter]
-        PR -->|Primary| GM[GeminiClient]
-        PR -->|Fallback| LL[LocalLLM / Ollama]
-    end
-
-    subgraph "7. Persistence & Memory"
-        AG_R --> RS[ReminderStore]
-        OR & AG_C --> CM
-        OR --> OB[Observability Layer]
-        OB --> DS[Dashboard / Observatory]
-        OB --> JL[JSONL Metrics]
-        RS --> SL[SQLite Store]
-    end
-
-    subgraph "8. Final Response"
-        AG_C & OR --> RP[Final Response]
-        RP -->|Text| UI_T
-        RP -->|TTS| VO[Voice Output Manager]
-    end
-
+    %% Input Layer
+    User((User)) -->|Voice / Text / Telegram| Input[Input Queue]
+    
+    %% Fast Deterministic Routing
+    Input --> CapRouter{Capability Router}
+    CapRouter -->|Regex Match: File/Git/GWS| CapExecute[Capability Execution]
+    CapRouter -->|No Match| FastRouter{Fast Router}
+    
+    FastRouter -->|Deterministic App/OS Match| FastPath[Fast OS Execution]
+    FastPath --> Output[Output Bridge]
+    CapExecute --> Output
+    
+    %% Cognitive AI Routing
+    FastRouter -->|Requires Reasoning| Intent[Intent Classifier]
+    
+    %% Memory Subsystem
+    Intent -->|Retrieve Context| Brain[(ZenoBrain Graph Memory)]
+    Brain -->|Inject Cognitive Context| Intent
+    
+    %% Core Kernel Delegation
+    Intent --> Scheduler[Runtime Scheduler]
+    Scheduler --> Orchestrator[Orchestrator & Task Graph]
+    
+    %% Agent Registry
+    Orchestrator -->|Chat Task| ChatAgent[Chat Agent]
+    Orchestrator -->|Memory Task| Brain
+    Orchestrator -->|Research Task| BrowserAgent[Cognition / Browser Agent]
+    Orchestrator -->|Complex Coding Task| Planner[Planner Agent]
+    
+    %% Planner and Swarm Execution
+    Planner -->|Generate Task Graph| Orchestrator
+    Orchestrator --> DevAgent[Developer Agent]
+    
+    %% Security & System
+    DevAgent --> Sandbox{Security Sandbox & Command Approver}
+    Sandbox -->|Validated| SysAgent[System Agent]
+    
+    %% Event Bus & Storage
+    Orchestrator -.->|Emits Events| EventBus((Event Bus))
+    EventBus -.-> SQLite[(SQLite Store)]
+    EventBus -.-> Metrics[Metrics Logger]
+    
+    %% Output
+    ChatAgent --> Output
+    BrowserAgent --> Output
+    SysAgent --> Output
+    
+    Output --> TTS[Voice Output / Terminal / Telegram]
+    Output -->|Log Action| Brain
 ```
 
-## Technical Stack
+---
 
-Core stack:
+## 🧠 Memory Subsystem: The ZenoBrain Architecture
 
-- Python
-- Multi-agent runtime with typed task orchestration
-- Local LLM integration through Ollama-style clients
-- Hybrid model routing with remote fallback support
-- JSONL-based observability and execution metrics
+At the heart of ZENO lies **ZenoBrain**, a remarkably complex and persistent memory subsystem built on SQLite. It does not just store text; it actively builds a temporal and relational Knowledge Graph of your life and workspace.
 
-System and product capabilities:
+### Core Memory Modules
+*   **Working Memory:** Short-term cache with a strict TTL. Holds active context, observations, and immediate session variables.
+*   **Episodic Memory:** Automatically chunked interaction histories. Zeno summarizes your actions into episodic blocks and connects them hierarchically.
+*   **Long-Term Semantic Graph:** The powerhouse. Text is ingested and broken down into:
+    *   *Facts & Slots:* (e.g., `preferred_backend` = `Python`)
+    *   *Graph Triples:* Directed edges connecting entities (`User` -> `knows` -> `React`).
+    *   *Hyperedges:* Complex n-ary relationships linking multiple tech stacks or project concepts together.
+*   **Session Continuity:** Actively takes snapshots of your workspace (`pending_todos`, `unresolved_problems`, `active_project`). Triggered by commands like *"continue where we left off"*, it perfectly reinstantiates your exact psychological and digital state.
 
-- Rule-based intent routing for low-latency command handling
-- Workspace-scoped file creation and shell execution
-- Reminder storage and context management
-- Voice input with `faster-whisper`
-- Voice output with `pyttsx3`
-- Windows system control via `pycaw`, `wmi`, and keyboard hooks
+### The Multi-Stage Retrieval Pipeline
+When you ask ZENO a question, it doesn't just do a vector search. It executes a multi-round cognitive retrieval plan:
+1.  **Intent Classification:** Determines if your query is about a *Person, Preference, Project, Device, or Temporal Event*.
+2.  **Hybrid Fetching:** Pulls candidates via Full-Text Search (BM25), exact slot matching, graph traversal (multi-hop neighbors), and temporal windowing.
+3.  **Reranking:** Candidates are ranked deterministically based on BM25 match, node importance (0.0 - 1.0), and semantic kind (`person` > `decision` > `fact`).
 
-Engineering practices reflected in the codebase:
+### Memory Flowchart
 
-- Separation of concerns across `core`, `agents`, `llm`, `memory`, `tools`, and `voice`
-- Safety-first execution boundaries
-- Fallback-oriented design
-- Test coverage for routing, reminders, and phase-level workflows
-a
-## Repository Layout
-
-```text
-zeno/
-  agents/      Agent implementations for chat, planning, development, system control, reminders
-  core/        Orchestration, routing, approvals, execution sandbox, metrics, task schemas
-  llm/         Local, Gemini, Claude, and hybrid model clients
-  memory/      Reminder models and persistence
-  tools/       File-system and Windows application control helpers
-  voice/       Speech input and speech output
-tests/         Routing, reminder, and integration-oriented tests
-start.py       Main interactive entrypoint
-workspace/     Sandboxed workspace for assistant-generated artifacts
+```mermaid
+graph TD
+    %% Ingestion Flow
+    Input((User Input / Event)) --> Extractor{Cognitive Extractor}
+    
+    Extractor -->|High Signal?| FactExtraction[Extract Facts & Slots]
+    Extractor -->|Entity Mapping| Triples[Extract Graph Triples]
+    Extractor -->|Complex Tech| Hyperedges[Extract Hyperedges]
+    
+    %% Storage
+    FactExtraction --> LTM[(Long-Term Memory)]
+    Triples --> GraphDB[(Graph Store)]
+    Hyperedges --> GraphDB
+    
+    %% Implicit Graph Logic
+    GraphDB -->|Co-occurrence| Latent[Infer Latent Links]
+    Latent -.-> GraphDB
+    
+    %% Retrieval Flow
+    Query((User Query)) --> Classifier[Retrieval Intent Classifier]
+    
+    Classifier -->|Determines Plan| Pipeline{Multi-Round Pipeline}
+    
+    Pipeline -->|BM25 / Slots| LTM
+    Pipeline -->|Hop Traversal| GraphDB
+    Pipeline -->|Temporal Window| Temporal[(Temporal Events)]
+    Pipeline -->|Active Snapshot| Session[(Session Continuity)]
+    
+    %% Reranking & Context
+    LTM --> Rerank[Scoring & Reranking]
+    GraphDB --> Rerank
+    Temporal --> Rerank
+    
+    Rerank --> Context[Memory Context Object]
+    Session --> Context
+    
+    Context -->|Injected into Prompt| IntentKernel[Custom Runtime Kernel]
 ```
 
-## Testing
+---
 
-Representative tests live under [`tests/`](/C:/Users/KIIT0001/Desktop/ZENO/tests) and cover routing logic, reminders, and phase workflows.
+## 🚀 Experience The OS (v1)
 
-```bash
-python -m pytest tests
-```
+*(Note: ZENO v1 is designed to run entirely locally with secure, privacy-first access to your filesystem and APIs.)*
 
-Some OS-control and voice tests are environment-dependent and are most reliable on a Windows machine with the required device support.
+### The "Start Where You Left Off" Magic
+> **You:** "What were we working on last month before I went on vacation?"  
+> **ZENO:** *(Queries ZenoBrain Graph)* "We were refactoring the multi-agent routing logic in `planner_agent.py` and tracking a bug in the Telegram Bridge. I have restored your workspace and loaded the context. Shall we fix the bridge bug?"
 
-## Current Focus and Tradeoffs
+### Sandboxed OS Execution
+> **You:** "Write a script to clean up all temporary files, but run it safely."  
+> **ZENO:** *(Generates bash script, routes through Security Layer)* "I have written the cleanup script and executed it within the sandbox. The host OS remains secure. Here are the files that would be deleted..."
 
-ZENO is strongest as a local assistant runtime and orchestration project. It emphasizes controllable execution, deterministic routing, and safe tool use over polished UI or cloud-scale deployment. Some integrations are optional, environment-specific, or credential-gated, but the core project structure already reflects the kind of ownership, debugging discipline, and system decomposition expected in serious software engineering work.
-
-## Resume-Ready Summary
-
-Built a local AI assistant runtime in Python with agent-based task orchestration, low-latency request routing, sandboxed command execution, model fallback handling, structured observability, reminder memory, and optional voice interfaces for real machine-side workflows.
+### Zero-Latency Voice Command
+> **You:** *(Holding Ctrl+Space)* "Mute Spotify and summarize my latest unread emails."  
+> **ZENO:** *(Instantly mutes volume via FastRouter, then queries GWS via SLM)* "System muted. You have 2 unread emails from your manager regarding the Q3 roadmap..."
